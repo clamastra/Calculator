@@ -5,11 +5,12 @@
 }
 
 #calcWrapper {
-    width: 200px;
+    width: 220px;
     height: 200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    background-color: grey
 }
 
 .calcButton {
