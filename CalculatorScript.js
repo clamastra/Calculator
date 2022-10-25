@@ -16,15 +16,19 @@ function divide(num1, num2) {
 
 function operate(operator, num1, num2) {
     if (operator == '+') {
-        console.log(add(num1, num2));
+        return (add(num1, num2));
     } else if (operator == '-') {
-        console.log(subtract(num1, num2));
+        return (subtract(num1, num2));
     } else if (operator == 'x') {
-        console.log(multiply(num1, num2));
+        return (multiply(num1, num2));
     } else if (operator == '/') {
-        console.log(divide(num1, num2));
+        if (num2 === 0) {
+            return "No dividing by 0!";
+        } else {
+            return (divide(num1, num2));
+        }
     } else {
-        console.log("Invalid operator");
+        return ("Invalid operator");
     }
 }
 
@@ -148,7 +152,11 @@ function zeroFunction() {
 //Functions below are for the operators
 
 function divisionFunction() {
-    if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
+    if (calcInfo.secondNumDone === true) {
+        equalFunction();
+        calcInfo.operatorDone = true;
+        calcInfo.operatorSaved = "/";
+    } else if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
         calcInfo.operatorSaved = '/';
         document.getElementById("display").innerHTML = calcInfo.operatorSaved;
         calcInfo.operatorDone = true;
@@ -161,7 +169,11 @@ function divisionFunction() {
     }
 }
 function multiplyFunction() {
-    if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
+    if (calcInfo.secondNumDone === true) {
+        equalFunction();
+        calcInfo.operatorDone = true;
+        calcInfo.operatorSaved = "x";
+    } else if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
         calcInfo.operatorSaved = 'x'
         document.getElementById("display").innerHTML = calcInfo.operatorSaved;
         calcInfo.operatorDone = true;
@@ -174,7 +186,11 @@ function multiplyFunction() {
     }
 }
 function plusFunction() {
-    if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
+    if (calcInfo.secondNumDone === true) {
+        equalFunction();
+        calcInfo.operatorDone = true;
+        calcInfo.operatorSaved = "+";
+    } else if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
         calcInfo.operatorSaved = '+'
         document.getElementById("display").innerHTML = calcInfo.operatorSaved;
         calcInfo.operatorDone = true;
@@ -187,7 +203,11 @@ function plusFunction() {
     }
 }
 function minusFunction() {
-    if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
+    if (calcInfo.secondNumDone === true) {
+        equalFunction();
+        calcInfo.operatorDone = true;
+        calcInfo.operatorSaved = "-";
+    } else if (calcInfo.firstNumDone === true && calcInfo.operatorDone === false) {
         calcInfo.operatorSaved = '-'
         document.getElementById("display").innerHTML = calcInfo.operatorSaved;
         calcInfo.operatorDone = true;
@@ -213,7 +233,14 @@ function clearFunction() {
 }
 
 function equalFunction() {
-    document.getElementById("display")=operate(calcInfo.operatorSaved,runningNum,runningNum2);
+    calcInfo.total=operate(calcInfo.operatorSaved,runningNum,runningNum2)
+    document.getElementById("display").innerHTML=calcInfo.total;
+    runningNum=calcInfo.total;
+    calcInfo.secondNumDone=false;
+    calcInfo.secondNum=0;
+    calcInfo.operatorDone=false;
+    calcInfo.operatorSaved=""; 
+    runningNum2=0;
 }
 
 const oneButton = document.querySelector("#oneButton");
@@ -240,8 +267,15 @@ const clearButton = document.querySelector("#oneButton");
 const calcInfo = {
     firstNum:0,
     secondNum:0,
+    total:0,
     operatorSaved:"",
     firstNumDone:false,
     secondNumDone:false,
     operatorDone:false,
 }
+
+/*
+console.log("calcInfo firstNum is " + calcInfo.firstNum + " and runningNum is "+runningNum);
+console.log("calcInfo secondNum is " + calcInfo.secondNum + " and runningNum2 is "+runningNum2);
+console.log("calcInfo total is " + calcInfo.total + " and operatorSaved is " + calcInfo.operatorSaved);
+*/
